@@ -93,12 +93,9 @@ except socket.error as msg:
 
 最好将s变成全局变量，便于后续的数据发送
 
-
-
 cloud：
 
 与树莓派几乎一样，见下面总代码
-
 
 #### 测试总代码
 
@@ -145,8 +142,6 @@ if __name__ == '__main__':
 
 
 ```
-
-
 
 raspberry:
 
@@ -200,12 +195,122 @@ if __name__ == '__main__':
 
 ![1676113668027](image/readme/1676113668027.png)
 
-
 ## sqlite3云端数据库
 
 ### 简介
 
 falsk自带的数据库，凑合用。将发送过来的时间存入数据库。
 
-
 ### 用法
+
+#### 创建数据库
+
+```python
+if not os.path.isfile('data.db'):
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    c.execute("""CREATE TABLE data (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date_time text, 
+        field integer
+        )""")
+    conn.commit()
+    conn.close()
+```
+
+即创建名为data的数据库，并创建名为data的table。
+
+
+#### 增加数据
+
+```python
+def date_save(device_id):
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    date_time_str = now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    c.execute("INSERT INTO data VALUES(:Id,  :date_time, :device_id)",
+            {'Id': None,  'date_time': date_time_str,  'device_id': int(device_id)})
+    conn.commit()
+    c.close()
+    conn.close()
+
+date_save(3)
+date_save(2)
+date_save(1)
+
+```
+
+
+#### 查询
+
+```python
+conn = sqlite3.connect('data.db')
+c = conn.cursor()
+max_id = c.execute("SELECT MAX(rowid) FROM data ").fetchone()
+sql = "SELECT * FROM data "
+c.execute(sql)  #最新一条
+row1 = c.fetchone()
+```
+
+```python
+(1, '2023-02-12 08:51:06', 3)
+```
+
+rowid即默认的keyworld
+
+| ID | date_time           | device_id |
+| -- | ------------------- | --------- |
+| 1  | 2023-02-12 08:51:06 | 1         |
+| 2  | 2023-02-12 08:51:06 | 2         |
+
+
+#### 测试总代码
+
+```python
+import sqlite3
+import os
+import time
+
+if not os.path.isfile('data.db'):
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    c.execute("""CREATE TABLE data (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date_time text, 
+        device_id integer
+        )""")
+    conn.commit()
+    conn.close()
+
+
+def date_save(device_id):
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    date_time_str = now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    c.execute("INSERT INTO data VALUES(:Id,  :date_time, :device_id)",
+            {'Id': None,  'date_time': date_time_str,  'device_id': int(device_id)})
+    conn.commit()
+    c.close()
+    conn.close()
+
+
+date_save(3)
+date_save(2)
+date_save(1)
+
+
+# 查询
+conn = sqlite3.connect('data.db')
+c = conn.cursor()
+max_id = c.execute("SELECT MAX(rowid) FROM data ").fetchone()
+sql = "SELECT * FROM data "
+c.execute(sql)  #最新一条
+
+row1 = c.fetchone()
+print(row1,max_id)
+```
+
+创建data数据库与data的table，插入三条数据并查询
+
+
+## 云端控制树莓派（电灯）
