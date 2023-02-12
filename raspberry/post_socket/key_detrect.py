@@ -1,3 +1,5 @@
+# 按键按下后将数据传给云端
+
 import RPi.GPIO as GPIO
 import socket
 import sys
