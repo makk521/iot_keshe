@@ -25,12 +25,16 @@ GPIO.output(LED,GPIO.LOW)
 def my_callback(channel):
     data = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + '  raspberry'
     print('按键按下')
+    # 发送的数据格式：(device_id,data_time,led_status)
+    data_send = str((1,data,1))
     # print('Edge detected on channel %s'%channel)
-    s.send(data.encode('utf-8'))
+    s.send(data_send.encode('utf-8'))
 
     GPIO.output(LED,GPIO.HIGH)
     time.sleep(led_delay_time)
     GPIO.output(LED,GPIO.LOW)
+    data_send = str((1,data,0))
+    s.send(data_send.encode('utf-8'))
 
 GPIO.add_event_detect(channel, GPIO.RISING, callback=my_callback, bouncetime=400)
 
@@ -47,6 +51,14 @@ if __name__ == '__main__':
         RECEICVE_status = int(s.recv(BUFSIZ).decode('utf-8'))
         if(RECEICVE_status == turn_on ):
             GPIO.output(LED,GPIO.HIGH)
+
+            data = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            data_send = str((1,data,1))
+            s.send(data_send.encode('utf-8'))
+
             RECEICVE_status = turn_off
             time.sleep(led_delay_time)
             GPIO.output(LED,GPIO.LOW)
+
+            data_send = str((1,data,0))
+            s.send(data_send.encode('utf-8'))
