@@ -4,7 +4,7 @@ import sys
 import sqlite3
 import os
 import time
-import asyncio
+from threading import Thread
 
 name = socket.gethostname()
 HOST = socket.gethostbyname('10.0.12.13')  # 获取阿里云服务器私网IP，使用ifconfig可查询
@@ -42,6 +42,15 @@ def date_save_rasp(device_id,time_from_rasp):
     c.close()
     conn.close()
 
+def receive_from_rasp():
+    while(True):
+        print('start')
+        buf = sock.recv(BUFSIZ)  # 接收数据
+        print('received')       
+        time_from_raspberry = buf.decode('utf-8')  # 解码
+        date_save_rasp(1,time_from_raspberry)
+
+
 def date_check():
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
@@ -51,8 +60,6 @@ def date_check():
     c.execute(sql)  #最新一条
     return c.fetchone()
 
-
- 
 
 
 app = Flask(__name__)
@@ -74,11 +81,11 @@ def index():
 
 @app.route("/message", methods=['GET', "POST"])
 def message():
-    buf = sock.recv(BUFSIZ)  # 接收数据
-    time_from_raspberry = buf.decode('utf-8')  # 解码
-    date_save_rasp(1,time_from_raspberry)
+    # buf = sock.recv(BUFSIZ)  # 接收数据
+    # time_from_raspberry = buf.decode('utf-8')  # 解码
+    # date_save_rasp(1,time_from_raspberry)
     new = date_check()
-    return render_template("message.html",led_on_time=new[1])
+    return render_template("message.html",led_on_time= new[1])
 
 if __name__ == '__main__':
     try:
@@ -91,8 +98,9 @@ if __name__ == '__main__':
         sys.exit(1)
     sock, addr = s.accept()
 
-    # asyncio.run(receive_socket_run())
-    print(111111)
-    app.run(host='0.0.0.0')
-    print(222222)
+    Thread(target = receive_from_rasp).start()
+    Thread(target = app.run(host='0.0.0.0')).start()
+        
+    
+
 
