@@ -66,7 +66,7 @@ GPIO.setup(channel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 引脚图如下：
 
-![1676111480475](image/readme/1676111480475.png)
+![1676805335164](image/README/1676805335164.png)
 
 BCM模式即 ``GPIOxx``
 
@@ -272,7 +272,7 @@ if __name__ == '__main__':
 
 按键按下发送当前时间，显示在cloud终端上。
 
-![1676113668027](image/readme/1676113668027.png)
+![1676805352560](image/README/1676805352560.png)
 
 ## sqlite3云端数据库
 
