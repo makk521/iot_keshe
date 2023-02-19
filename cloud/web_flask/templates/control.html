@@ -48,17 +48,21 @@
 		<button class="btn-close btn btn-sm">×</button>
 		<div class="container">
 			<div class="hero">
-				<h1>LED的当前状态:</h1>
-                <p style="font-size: 30px;">{{led_status}}</p>
-			</div>
-		</div>
+				<h1>LED:</h1>
 
-		<div class="container">
-			<div class="hero">
-				<h1>上此LED灯亮时间:</h1>
-				<p style="font-size: 30px;">{{led_on_time}}</p>
+                <form method="post" action="/control">
+                    <div class="text">
+                        
+                        <input type="radio" style="zoom: 150%;" name="led_status_control" value="1">开
+                        <br>
+                        <input type="radio" style="zoom: 150%;" name="led_status_control" value="2">关
+                        <br>
+                        <input type="submit" class="btn btn-b" value="提交">
+                    </div>
+                </form>
+
+				
 			</div>
-		</div>
 			<!-- <div class="row"> -->
     <!-- <div class="col c4"><h3>Yay headings!</h3>You can view the source of this page and copy it to get a quick start on a project with Min!<br><a href="http://owenversteeg.com" class="btn btn-sm btn-a">Do stuff!</a></div> -->
         <!-- <div class="col c4"><h3>Yay headings!</h3>You can view the source of this page and copy it to get a quick start on a project with Min!<br><a href="http://owenversteeg.com" class="btn btn-sm btn-b">Do stuff!</a></div>    <div class="col c4"><h3>Yay headings!</h3>You can view the source of this page and copy it to get a quick start on a project with Min!<br><a href="http://owenversteeg.com" class="btn btn-sm btn-c">Do stuff!</a></div> -->
@@ -73,4 +77,6 @@
 
 
 
+
+        
 

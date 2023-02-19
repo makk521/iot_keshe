@@ -4,10 +4,9 @@
 
 ![1676169323912](image/README/1676169323912.png)
 
-
 # 运行方法：
 
-**环境依赖：**云端安装flask即可，树莓派几乎不用安装什么
+环境依赖：云端安装flask即可，树莓派几乎不用安装什么
 
 将cloud里的web_flask文件夹全拖到云端。将raspberry文件夹下的all.py拖到树莓派里。
 
@@ -22,26 +21,29 @@ python index.py
 
 ```shell
 # 树莓派
-python all.py
+python all_button.py     # 按键简化版本
+python all_sensor.py     # 传感器版本
 ```
 
 访问网址：
 
 ```shell
 http://124.223.76.58:5000/index     # 主页
-http://124.223.76.58:5000/message   # 时间查看
 ```
 
 界面：
 
-![1676214265736](image/README/1676214265736.png)
+![1676732318870](image/README/1676732318870.png)
 
 
+![1676776519342](image/README/1676776519342.png)
 
-![1676214657609](image/README/1676214657609.png)
+
+![1676800474265](image/README/1676800474265.png)
+
+**目前不支持状态刷新，后续将使用websocket实现静态界面的实时刷新。**
 
 # 开发过程
-
 
 ## 树莓派引脚检测（中断）
 

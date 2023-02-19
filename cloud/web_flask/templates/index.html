@@ -1,22 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>用户控制终端</h1>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<form method="post" action="/index">
-    <div>
-        LED:
-        <input type="radio" name="led_status_control" value="1">开
-        <input type="radio" name="led_status_control" value="2">关
-    </div>
+		<title>Your Page Title</title>
 
-    <input type="submit" value="提交">
-</form>
+		<link href="//mincss.com/entireframework.min.css" rel="stylesheet" type="text/css">
 
-<h1>LED状态: {{led_status}}</h1>
-</body>
+		<style>
+			body, html {
+			height: 100%;
+			margin: 0;
+			}
+
+			.bgimg {
+				background-image: url('static/test.jpeg');
+				height: 100%;
+				background-position: center;
+				background-size: cover;
+				position: relative;
+				color: black;
+				font-family: "Courier New", Courier, monospace;
+				font-size: 25px;
+				filter:alpha(opacity=50);  
+				-moz-opacity:0.5;  
+				-khtml-opacity: 0.5;  
+				opacity: 0.7;
+				}
+			
+			.middle {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				text-align: center;
+				}
+
+			
+		</style>
+	</head>
+	<body>
+		<nav class="nav" tabindex="-1" onclick="this.focus()">
+			<div class="container">
+				<a class="pagename current" href="index">主页面</a>
+				<a href="control">控制界面</a>
+				<a href="message">监测界面</a> 
+				
+			</div>
+		</nav>
+
+		<div class="bgimg"></div>
+
+		  <div class="middle">
+			<h1>hello world!</h1>
+			<hr>
+			<p>欢迎来到这里</p>
+		  </div>
+
+	</body>
 </html>

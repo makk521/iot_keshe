@@ -67,21 +67,30 @@ def date_check():
 app = Flask(__name__)
 
 @app.route("/index", methods=['GET', "POST"])
-def index():
-    new_data = date_check()     # 无论是GET还是POST，都将最新的灯的状态传到index主页
-    if request.method == "GET":      
-        return render_template("index.html",led_status = new_data[3])
-    else:
-        led_status_control = request.form.get("led_status_control")  # 在网页表单上获取led_status_control
-        sock.send(led_status_control.encode('utf-8'))                # 将获取的状态值发到树莓派
-        print('指令已发送')
-        return render_template("index.html",led_status = new_data[3])
+def index():     
+    return render_template("index.html")
+
 
 # 查看最新的亮灯时间
 @app.route("/message", methods=['GET', "POST"])
 def message():
     new = date_check()
-    return render_template("message.html",led_on_time= new[1])
+    if new[3] == 1:
+        led_status = 'on'
+    else:
+        led_status = 'off'
+    
+    return render_template("message.html",led_on_time= new[1],led_status = led_status)
+
+@app.route("/control", methods=['GET', "POST"])
+def control():
+    if request.method == "GET":
+        return render_template("control.html")
+    else:
+        led_status_control = request.form.get("led_status_control")  # 在网页表单上获取led_status_control
+        sock.send(led_status_control.encode('utf-8'))                # 将获取的状态值发到树莓派
+        print('指令已发送')
+        return render_template("index.html")
 
 if __name__ == '__main__':
     try:
