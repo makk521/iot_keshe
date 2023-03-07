@@ -8,7 +8,7 @@ let db = new sqlite3.Database('C:/Users/ASUS/Desktop/iot_keshe/data.db', (err) =
 
 
 
-let sql = `SELECT * FROM data `;
+let sql = `SELECT led_status FROM data `;
 
 db.all(sql, [], (err, rows) => {
   if (err) {

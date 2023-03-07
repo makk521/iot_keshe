@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "data",
+            "group": "1",
+            "database": "${workspaceFolder:iot_keshe}/data.db"
+        }
+    ]
+}
